@@ -1,0 +1,32 @@
+{
+	# debug
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+	# acme_dns rfc2136 {
+	# 	key_name {$DNS_KEY_NAME}
+	# 	key_alg {$DNS_KEY_ALG}
+	# 	key {$DNS_KEY}
+	# 	server {$DNS_SERVER}
+	# }
+
+	dynamic_dns {
+		ip_source static {$IP}
+		provider rfc2136 {
+			key_name {$DNS_KEY_NAME}
+			key_alg {$DNS_KEY_ALG}
+			key {$DNS_KEY}
+			server {$DNS_SERVER}
+		}
+		domains {
+			test.com
+		}
+		dynamic_domains
+	}
+}
+
+bind.test.com {
+	root * /usr/share/caddy
+	file_server browse
+	tls internal {
+		on_demand
+	}
+}

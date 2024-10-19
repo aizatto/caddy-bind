@@ -1,0 +1,15 @@
+$TTL 0	; 0 seconds
+test.com.		IN SOA	bind. admin.test.com. (
+				49         ; serial
+				900        ; refresh (15 minutes)
+				300        ; retry (5 minutes)
+				604800     ; expire (1 week)
+				900        ; minimum (15 minutes)
+				)
+$TTL 3600	; 1 hour
+			NS	ns.test.com.
+$TTL 0	; 0 seconds
+			A	127.0.0.1
+bind.test.com.		A	127.0.0.1
+$TTL 3600	; 1 hour
+ns.test.com.		A	127.0.0.1

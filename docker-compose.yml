@@ -1,0 +1,30 @@
+services:
+  caddy:
+    build: .
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    environment:
+      IP: 127.0.0.1
+      DNS_SERVER: bind:53
+      DNS_KEY: pBs1tDq/xe1wGwdE6n35MeJFqrv3q4nB3wLeE8UklXk=
+      DNS_KEY_ALG: hmac-sha256
+      DNS_KEY_NAME: caddy
+  
+  bind:
+    image: internetsystemsconsortium/bind9:9.20
+    container_name: bind
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+      - 953:953/tcp
+    environment:
+      TZ: Asia/Kuala_Lumpur
+    volumes:
+      - ./bind:/etc/bind
+    # disabled ip6 because its slows down initial queries
+    command: -f -4 -c /etc/bind/named.conf 
